@@ -31,8 +31,10 @@
 
   There also are lookup-* functions for each return type."
   [expr source return-type]
-  (let [xpath (.newXPath (XPathFactory/newInstance))]
-    (.evaluate xpath expr (dom/parse-xml source) (to-qname return-type))))
+  (if (instance? XPathExpression expr)
+    (.evaluate expr (dom/parse-xml source) (to-qname return-type))
+    (let [xpath (.newXPath (XPathFactory/newInstance))]
+      (.evaluate xpath expr (dom/parse-xml source) (to-qname return-type)))))
 
 (defn lookup-boolean
   "Lookup a boolean value with the given XPath expression."
