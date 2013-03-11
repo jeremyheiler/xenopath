@@ -38,8 +38,7 @@
 
 (defn lookup-boolean
   "Lookup a boolean value with the given XPath expression."
-  [expr
-  source]
+  [expr source]
   (lookup expr source :boolean))
 
 (defn lookup-node
