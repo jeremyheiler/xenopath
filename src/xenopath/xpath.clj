@@ -7,7 +7,7 @@
   [expr]
   (if-not (instance? XPathExpression expr)
     (let [xpath (.newXPath (XPathFactory/newInstance))]
-      (.compile (xpath) expr))
+      (.compile xpath expr))
     expr))
 
 (defn ^:private to-qname
