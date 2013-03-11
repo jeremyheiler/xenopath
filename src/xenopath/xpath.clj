@@ -2,12 +2,15 @@
   (:require [xenopath.dom :as dom])
   (:import [javax.xml.xpath XPathConstants XPathExpression XPathFactory]))
 
+(defn ^:private new-xpath
+  []
+  (.newXPath (XPathFactory/newInstance)))
+
 (defn compile-expr
   "Compiles the given XPath expression."
   [expr]
   (if-not (instance? XPathExpression expr)
-    (let [xpath (.newXPath (XPathFactory/newInstance))]
-      (.compile xpath expr))
+    (.compile (new-xpath) expr)
     expr))
 
 (defn ^:private to-qname
@@ -31,10 +34,10 @@
 
   There also are lookup-* functions for each return type."
   [expr source return-type]
-  (if (instance? XPathExpression expr)
-    (.evaluate expr (dom/parse-xml source) (to-qname return-type))
-    (let [xpath (.newXPath (XPathFactory/newInstance))]
-      (.evaluate xpath expr (dom/parse-xml source) (to-qname return-type)))))
+  (let [doc (dom/parse-xml source) qname (to-qname return-type)]
+    (if (instance? XPathExpression expr)
+      (.evaluate expr doc qname)
+      (.evaluate (new-xpath) expr doc qname))))
 
 (defn lookup-boolean
   "Lookup a boolean value with the given XPath expression."
