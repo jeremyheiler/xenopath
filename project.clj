@@ -1,6 +1,7 @@
-(defproject xenopath "0.1.0-SNAPSHOT"
+(defproject org.clojars.jeremy/xenopath "0.1.0-SNAPSHOT"
   :description "XPath for Clojure"
   :url "https://github.com/jeremyheiler/xenopath"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.0"]])
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.5.0"]]}
+             :1.4 {:dependencies [[org.clojure/clojure "1.4.0"]]}})
