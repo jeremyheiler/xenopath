@@ -2,6 +2,15 @@
 
 A Clojure XPath library that wraps `java.xml.xpath` and `org.w3c.dom`.
 
+## Installation
+
+Xenopath is available from Clojars. Add the following dependency to
+your `project.clj`
+
+```clojure
+[xenopath "0.1.0"]
+```
+
 ## Usage
 
 ```clojure
