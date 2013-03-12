@@ -48,4 +48,5 @@
 
 (defn attributes
   [node]
-  (.getAttributes node))
+  (let [f #(assoc %1 (keyword (.getName %2)) (.getValue %2))]
+    (reduce f {} (node-seq (.getAttributes node)))))
