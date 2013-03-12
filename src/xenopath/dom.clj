@@ -18,7 +18,7 @@
         (.parse doc-builder (ByteArrayInputStream. (.getBytes source)))
         (.parse doc-builder source)))))
 
-(defn ^:private node-seq
+(defn node-seq
   ([nodelist]
      (node-seq nodelist 0))
   ([nodelist index]

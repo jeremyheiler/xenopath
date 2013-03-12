@@ -13,15 +13,6 @@
     (.compile (new-xpath) expr)
     expr))
 
-(defn ^:private to-qname
-  [key]
-  (condp = key
-    :boolean XPathConstants/BOOLEAN
-    :node    XPathConstants/NODE
-    :nodeset XPathConstants/NODESET
-    :number  XPathConstants/NUMBER
-    :string  XPathConstants/STRING))
-
 (defn ^:private lookup*
   "Low level lookup function where return-type is a QName object."
   [expr source return-type]
@@ -29,6 +20,40 @@
     (if (instance? XPathExpression expr)
       (.evaluate expr doc return-type)
       (.evaluate (new-xpath) expr doc return-type))))
+
+(defn lookup-boolean
+  "Lookup a boolean value with the given XPath expression."
+  [expr source]
+  (lookup* expr source XPathConstants/BOOLEAN))
+
+(defn lookup-node
+  "Lookup a single node with the given XPath expression."
+  [expr source]
+  (lookup* expr source XPathConstants/NODE))
+
+(defn lookup-nodeset
+  "Lookup a sequence of nodes with the given XPath expression."
+  [expr source]
+  (dom/node-seq (lookup* expr source XPathConstants/NODESET)))
+
+(defn lookup-number
+  "Lookup a number value with the given XPath expression."
+  [expr source]
+  (lookup* expr source XPathConstants/NUMBER))
+
+(defn lookup-string
+  "Lookup a string value with the given XPath expression."
+  [expr source]
+  (lookup* expr source XPathConstants/STRING))
+
+(defn ^:private lookup-fn
+  [key]
+  (condp = key
+    :boolean lookup-boolean
+    :node    lookup-node
+    :nodeset lookup-nodeset
+    :number  lookup-number
+    :string  lookup-string))
 
 (defn lookup
   "Lookup a value of return-type for the given XPath expression.
@@ -42,29 +67,4 @@
 
   There also are lookup-* functions for each return type."
   [expr source return-type]
-  (lookup* expr source (to-qname return-type)))
-
-(defn lookup-boolean
-  "Lookup a boolean value with the given XPath expression."
-  [expr source]
-  (lookup* expr source XPathConstants/BOOLEAN))
-
-(defn lookup-node
-  "Lookup a node with the given XPath expression."
-  [expr source]
-  (lookup* expr source XPathConstants/NODE))
-
-(defn lookup-nodeset
-  "Lookup a nodeset with the given XPath expression."
-  [expr source]
-  (lookup* expr source XPathConstants/NODESET))
-
-(defn lookup-number
-  "Lookup a number value with the given XPath expression."
-  [expr source]
-  (lookup* expr source XPathConstants/NUMBER))
-
-(defn lookup-string
-  "Lookup a string value with the given XPath expression."
-  [expr source]
-  (lookup* expr source XPathConstants/STRING))
+  ((lookup-fn return-type) expr source))

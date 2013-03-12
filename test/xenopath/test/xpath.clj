@@ -1,7 +1,8 @@
 (ns xenopath.test.xpath
   (:require [clojure.test :refer :all]
             [xenopath.xpath :as xpath])
-  (:import [javax.xml.xpath XPathConstants XPathExpression XPathFactory]
+  (:import [clojure.lang ISeq]
+           [javax.xml.xpath XPathConstants XPathExpression XPathFactory]
            [org.w3c.dom Node NodeList]))
 
 (deftest test-compile-expr
@@ -18,8 +19,8 @@
   (is (instance? Node (xpath/lookup "/a" "<a/>" :node))))
 
 (deftest test-lookup-nodeset
-  (is (instance? NodeList (xpath/lookup-nodeset "/a" "<a><b/><b/></a>")))
-  (is (instance? NodeList (xpath/lookup "/a" "<a><b/><b/></a>" :nodeset))))
+  (is (instance? ISeq (xpath/lookup-nodeset "/a" "<a><b/><b/></a>")))
+  (is (instance? ISeq (xpath/lookup "/a" "<a><b/><b/></a>" :nodeset))))
 
 (deftest test-lookup-number
   (is (instance? Number (xpath/lookup-number "/a" "<a>1</a>")))
