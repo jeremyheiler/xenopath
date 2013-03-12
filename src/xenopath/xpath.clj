@@ -22,6 +22,14 @@
     :number  XPathConstants/NUMBER
     :string  XPathConstants/STRING))
 
+(defn ^:private lookup*
+  "Low level lookup function where return-type is a QName object."
+  [expr source return-type]
+  (let [doc (dom/parse-xml source)]
+    (if (instance? XPathExpression expr)
+      (.evaluate expr doc return-type)
+      (.evaluate (new-xpath) expr doc return-type))))
+
 (defn lookup
   "Lookup a value of return-type for the given XPath expression.
 
@@ -34,32 +42,29 @@
 
   There also are lookup-* functions for each return type."
   [expr source return-type]
-  (let [doc (dom/parse-xml source) qname (to-qname return-type)]
-    (if (instance? XPathExpression expr)
-      (.evaluate expr doc qname)
-      (.evaluate (new-xpath) expr doc qname))))
+  (lookup* expr source (to-qname return-type)))
 
 (defn lookup-boolean
   "Lookup a boolean value with the given XPath expression."
   [expr source]
-  (lookup expr source :boolean))
+  (lookup* expr source XPathConstants/BOOLEAN))
 
 (defn lookup-node
   "Lookup a node with the given XPath expression."
   [expr source]
-  (lookup expr source :node))
+  (lookup* expr source XPathConstants/NODE))
 
 (defn lookup-nodeset
   "Lookup a nodeset with the given XPath expression."
   [expr source]
-  (lookup expr source :nodeset))
+  (lookup* expr source XPathConstants/NODESET))
 
 (defn lookup-number
   "Lookup a number value with the given XPath expression."
   [expr source]
-  (lookup expr source :number))
+  (lookup* expr source XPathConstants/NUMBER))
 
 (defn lookup-string
   "Lookup a string value with the given XPath expression."
   [expr source]
-  (lookup expr source :string))
+  (lookup* expr source XPathConstants/STRING))
