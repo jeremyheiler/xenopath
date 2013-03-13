@@ -1,11 +1,12 @@
 # Xenopath
 
-Xenopath is an XPath and DOM library for Clojure. The primary goal of
-this project is to provide a straightforward Clojure interface to the
-JDK's built-in XPath and DOM packages. The advantage is that it allows
-you to operate on sequences and maps instead of DOM collection
-objects. The disadvantage is that you're still working with a stateful
-DOM.
+Xenopath is an XPath and DOM library for Clojure.
+
+The primary goal of this project is to provide a straightforward
+Clojure interface to the JDK's built-in XPath and DOM packages. The
+advantage is that it allows you to operate on sequences and maps
+instead of DOM collection objects. The disadvantage is that you're
+still working with a stateful DOM.
 
 ## Installation
 
