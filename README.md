@@ -1,11 +1,16 @@
 # Xenopath
 
-A Clojure XPath library that wraps `java.xml.xpath` and `org.w3c.dom`.
+Xenopath is an XPath and DOM library for Clojure. The primary goal of
+this project is to provide a straightforward Clojure interface to the
+JDK's built-in XPath and DOM packages. The advantage is that it allows
+you to operate on sequences and maps instead of DOM collection
+objects. The disadvantage is that you're still working with a stateful
+DOM.
 
 ## Installation
 
-Xenopath is available from Clojars. Add the following dependency to
-your `project.clj`
+Xenopath is available on [Clojars](https://clojars.org/xenopath). Add
+the following dependency to your `project.clj` in order to use it.
 
 ```clojure
 [xenopath "0.1.0"]
@@ -52,7 +57,6 @@ your `project.clj`
 ;; Get the text for all the child nodes.
 (map dom/text (dom/children (xpath/lookup-node "/a" "<a><b>x</b><c>y</c></a>")))
 ;;=> ("x" "y")
-
 ```
 
 ## License
