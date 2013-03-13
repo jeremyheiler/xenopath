@@ -1,4 +1,4 @@
-(defproject xenopath "0.1.0"
+(defproject xenopath "0.2.0-SNAPSHOT"
   :description "XPath for Clojure"
   :url "https://github.com/jeremyheiler/xenopath"
   :license {:name "Eclipse Public License"
