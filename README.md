@@ -23,11 +23,11 @@ the following dependency to your `project.clj` in order to use it.
 
 (require '(xenopath [xpath :as xpath] [dom :as dom]))
 
-;; Get the string value of the node.
+;; Get the string value of a node.
 (xpath/lookup-string "/foo" "<foo>Foo</foo>")
 ;;=> "Foo"
 
-;; Get the name of the node.
+;; Get the name of a node.
 (dom/name (xpath/lookup-node "/foo" "<foo>Foo</foo>"))
 ;;=> "foo"
 
@@ -41,23 +41,27 @@ the following dependency to your `project.clj` in order to use it.
 (xpath/lookup-string "/a/b" "<a><b>x</b><b>y</b></a>")
 ;;=> "x"
 
-;; Does the node have attributes?
+;; Does a node have attributes?
 (dom/attributes? (xpath/lookup-node "/foo" "<foo bar=\"baz\"/>"))
 ;;=> true
+(dom/attributes? (xpath/lookup-node "/foo" "<foo/>"))
+;;=> false
 
-;; Get the attributes from a node.
+;; Get the attributes of a node.
 (dom/attributes (xpath/lookup-node "/foo" "<foo bar=\"baz\" tar=\"taz\"/>"))
 ;;=> {:taz "taz" :bar "baz"}
+(dom/attributes (xpath/lookup-node "/foo" "<foo/>"))
+;;=> {}
 
-;; Does the node have children?
+;; Does a node have children?
 (dom/children? (xpath/lookup-node "/a" "<a><b/><c/></a>"))
 ;;=> true
 (dom/children? (xpath/lookup-node "/a/c" "<a><b/><c/></a>"))
 ;;=> false
 
-;; Get the text for all the child nodes.
-(map dom/text (dom/children (xpath/lookup-node "/a" "<a><b>x</b><c>y</c></a>")))
-;;=> ("x" "y")
+;; Get the names of all child nodes.
+(map dom/name (dom/children (xpath/lookup-node "/a" "<a><b/><c/></a>")))
+;;=> ("b" "c")
 ```
 
 ## License
