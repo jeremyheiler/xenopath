@@ -54,7 +54,7 @@
   (let [f #(assoc %1 (keyword (.getName %2)) (.getValue %2))]
     (reduce f {} (node-seq (.getAttributes node)))))
 
-(defn raw-string
+(defn write-str
   [node]
   (let [sw (StringWriter.)
         tf (.newTransformer (TransformerFactory/newInstance))]
