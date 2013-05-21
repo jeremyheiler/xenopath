@@ -1,6 +1,9 @@
 (ns xenopath.dom
-  (:import [java.io ByteArrayInputStream]
+  (:import [java.io ByteArrayInputStream StringReader StringWriter]
            [javax.xml.parsers DocumentBuilderFactory]
+           [javax.xml.transform TransformerFactory OutputKeys]
+           [javax.xml.transform.dom DOMSource]
+           [javax.xml.transform.stream StreamResult]
            [org.w3c.dom Document Node NodeList])
   (:refer-clojure :exclude [name]))
 
@@ -50,3 +53,13 @@
   [node]
   (let [f #(assoc %1 (keyword (.getName %2)) (.getValue %2))]
     (reduce f {} (node-seq (.getAttributes node)))))
+
+(defn write-str
+  [node]
+  (let [sw (StringWriter.)
+        tf (.newTransformer (TransformerFactory/newInstance))]
+    (doto tf
+      (.setOutputProperty OutputKeys/OMIT_XML_DECLARATION "yes")
+      (.setOutputProperty OutputKeys/INDENT "yes"))
+    (.transform tf (DOMSource. node) (StreamResult. sw))
+    (.toString sw)))
