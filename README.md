@@ -14,7 +14,7 @@ Xenopath is available on [Clojars](https://clojars.org/xenopath). Add
 the following dependency to your `project.clj` in order to use it.
 
 ```clojure
-[xenopath "0.1.1"]
+[xenopath "0.1.2"]
 ```
 
 ## Usage
