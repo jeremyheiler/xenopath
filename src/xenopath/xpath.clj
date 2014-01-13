@@ -16,10 +16,10 @@
 (defn ^:private lookup*
   "Low level lookup function where return-type is a QName object."
   [expr source return-type]
-  (let [doc (dom/parse-xml source)]
+  (let [source (if (string? source) (dom/parse-xml source) source)]
     (if (instance? XPathExpression expr)
-      (.evaluate expr doc return-type)
-      (.evaluate (new-xpath) expr doc return-type))))
+      (.evaluate expr source return-type)
+      (.evaluate (new-xpath) expr source return-type))))
 
 (defn lookup-boolean
   "Lookup a boolean value with the given XPath expression."
